@@ -182,19 +182,27 @@
 			updateTiers();
 		});
 		
-		$(document).on("click", ".characterCheck", function() { // add/remove character
-			characterId = parseInt($(this).attr("id"));
+		$(document).on("change", ".characterCheck", function() { // add/remove characters
+			gameId = ($(this).attr("id"));
+			gameClass = ($(this).attr("class"));
+			// remove non-numeric characters - stackoverflow.com/questions/1862130/
+			gameIndex = gameClass.replace(/\D/g,'');
+			// alternative 
+			// gameInfo = currentGameChars.find(function(curr) { return curr[0] == gameId;});
+
 			if($(this).is(":checked")) {
-				for (var k = 0; k <= currentGameChars[characterId][1]; k++) {
+				for (var k = 0; k <= currentGameChars[gameIndex][1]; k++) {
 					$("#char div:last-child").after(singleChar);
-					$("#char div:last-child").css("background-image","url(img/"+currentGame+"/"+currentGameChars[characterId][0]+k+".png)");
-					$("#char div:last-child").attr("id",characterId);
+					$("#char div:last-child").css("background-image","url(img/"+currentGame+"/"+gameId+"/"+k+".png)");
+					$("#char div:last-child").attr("id", gameId + "-" + k);
+					// $("#char div:last-child").attr("title", allCharacters[gameIndex][k]);
 				}
 			} else {
-				$(".character[id="+characterId+"]").each( function() {
+				$(".character[id^='"+currentGameChars[gameIndex][0]+"-']").each( function() {
 					$(this).remove();
 				});
 			}
+			updateFilters(imgTags);
 		});
 			
 		$(document).on("click", function(e) {
