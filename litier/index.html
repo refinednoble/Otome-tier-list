@@ -397,38 +397,62 @@
 			codeSplit = code.split("==");
 			for (var i = 0; i < codeSplit.length; i++) {
 				tempTier = codeSplit[i].split("|");
-				for (var c = 1; c < tempTier.length; c++)
-					tempTier[c] = Number(tempTier[c]);
+				tempTier[1] = Number(tempTier[1]);
+				for (var j = 2; j < tempTier.length; j++) {
+					tempTier[j] = tempTier[j].split("-");
+				}
 				processedCode[i] = tempTier;
 			}
 			$("tr").each( function() {
 				$(this).remove();
 			});
 			console.log(processedCode);
+			/*
+			// deprecated switch statement
 			switch(processedCode[0][0]) {
-				case "64": changeGame(game64);break;
-				case "melee": changeGame(gameMelee);break;
-				case "brawl": changeGame(gameBrawl);break;
-				case "bminus": changeGame(gameBrawlMinus);break;
-				case "zeus": changeGame(gameBrawlZeus);break;
-				case "pm": changeGame(gamePM);break;
-				case "ssb4": changeGame(gameSmash4);break;
-				case "ssb4r": changeGame(gameSSB4Renders);break;
-				case "sfv": changeGame(gameSFV);break;
-				case "ggrev": changeGame(gameGGREV);break;
-				case "ssf2": changeGame(gameSSF2);break;
-				case "bh": changeGame(gameBrawlhalla);break;
-				case "ow": changeGame(gameOW);break;
+				case "fe": changeGame(gameFe);break;
+			}
+			*/
+			changeGame(gameFe);
+			// select only the games that appear
+			$(".selectAll").prop('checked', false).change();
+			selectionList = [];
+			for (var i = 1; i < processedCode.length; i++) {
+				for (var j = 2; j < processedCode[i].length; j++) {
+					title = processedCode[i][j][0];
+					checkBox = $("#" + title + ".characterCheck");
+					gameClass = (checkBox.attr("class"));
+					// remove non-numeric characters - stackoverflow.com/questions/1862130/
+					gameIndex = gameClass.replace(/\D/g,'');
+					
+					// add if unique
+					if (selectionList.indexOf(parseInt(gameIndex)) === -1) {
+						selectionList.push(parseInt(gameIndex));
+					}
+				}
+			}
+			// sort by ascending
+			selectionList.sort(function(a, b) { return a - b; });
+			for (var x = 0; x < selectionList.length; x++) {
+				checkBox = $(".characterCheck.game" + selectionList[x]);
+				if (!checkBox.is(":checked" )) {
+					checkBox.prop('checked', true).change();
+				}
 			}
 			for (var i = 1; i < processedCode.length; i++) {
 				$("tbody").append(singleTier);
 				$("tr:last-of-type").find(".labelHolder").css("background-color",colors[processedCode[i][1]]);
 				$("tr:last-of-type").find(".label").html(processedCode[i][0]);
-				for (var c = 2; c < processedCode[i].length; c++) {
+				for (var k = 2; k < processedCode[i].length; k++) {
+					title = processedCode[i][k][0];
+					index = processedCode[i][k][1];
+					$("#"+title+"-"+index+".character").detach().appendTo($("tr:last-of-type").find(".tier"));
+					/*
 					$("tr:last-of-type").find(".tier div:last-child").after(singleChar);
-					$("tr:last-of-type").find(".tier div:last-child").css("background-image","url(img/"+processedCode[0]+"/"+currentGameChars[processedCode[i][c]]+".png)");
-					$("tr:last-of-type").find(".tier div:last-child").attr("id",processedCode[i][c]);
-					$("#char #"+processedCode[i][c]).remove();
+					$("tr:last-of-type").find(".tier div:last-child").css("background-image","url(img/"+processedCode[0][0]+"/"+title+"/"+index+".png)");
+					$("tr:last-of-type").find(".tier div:last-child").attr("id", title + "-" + index);
+					$("#char > #"+title+"-"+index).remove();
+					*/
 				}
 			}
 		}
@@ -438,10 +462,6 @@
 				$("#tablewrap").css("display","table-cell");
 			else
 				$("#tablewrap").css("display","block");
-		}
-		
-		function alignPopup(popup) {
-			return Math.floor(($(window).height() - popup.height())/2)+"px";
 		}
 		
 		$(document).ready( function() {
