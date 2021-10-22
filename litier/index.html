@@ -446,22 +446,18 @@
 		
 		$(document).ready( function() {
 			$("#char").html("<div></div>");
-			if (localStorage.getItem("TierListMakerCode") === null)
-				changeGame(gameSmash4);
+			if (localStorage.getItem("ColorTiersCode") === null)
+				changeGame(gameFe);
 			else {
-				$("#exportcode").val(localStorage.getItem("TierListMakerCode"));
-				loadCode(localStorage.getItem("TierListMakerCode"));
+				$("#exportcode").val(localStorage.getItem("ColorTiersCode"));
+				loadCode(localStorage.getItem("ColorTiersCode"));
 			}
 			updateTiers();
+			loadFilterList(allTags);
 			tierlistSize();
 		});
 		$(window).resize( function () {
 			tierlistSize();
-		})
-		
-		function maleCorrinMode() {
-			$('<style>* { background: url(\'img/ssb4r/corrinm.png\'); }</style>').appendTo('head');
-			changeGame(gameCorrinMode);
 		}
 	</script>
 </body>
