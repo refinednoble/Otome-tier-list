@@ -11,7 +11,7 @@
 	  gtag('config', 'UA-47176820-2');
 	</script>
 	<link rel="icon" type="image/x-icon" href= "../icon.png"/>
-	<title>Tier List Maker - Smash Apps</title>
+	<title>Love intrest tier maker</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100italic" rel="stylesheet" type="text/css">
 	<link href="newstyle.css" rel="stylesheet">
 	<link href="dragula.min.css" rel="stylesheet">
@@ -22,8 +22,9 @@
 		<div id="buttons">
 			<button id="screenshot">Share</button>
 			<button id="hidebuttons">Hide controls</button>
-			<button id="game">Change game</button>
+			<button id="game">Change characters</button>
 			<button id="help">Help</button>
+			<button id="save">Save/Load</button>
 			<button id="reset">Reset</button>
 		</div>
 	</div>
@@ -83,26 +84,11 @@
 				<p><button id="deleteRow">Delete row</button> <button id="clearRow">Clear row</button></p>
 				<p><button id="addRowUp">Add row above</button> <button id="addRowBelow">Add row below</button></p>
 			</div>
-			<div id="gameChange">
-				<h1>CHANGE GAME</h1>
+			<div id="charChange" class="popupMenu">
+				<h1>CHANGE CHARACTERS</h1>
 				<span id="close"></span>
-				<div id="switchButtons">
-					<button id="switch64">Super Smash Bros. 64</button>
-					<button id="switchMelee">Super Smash Bros. Melee</button>
-					<button id="switchBrawl">Super Smash Bros. Brawl</button>
-					<button id="switchSmash4">Super Smash Bros. 4 (Screenshots)</button>
-					<button id="switchSSB4Renders">Super Smash Bros. 4 (Renders)</button><br>
-					<button id="switchPM">Project M</button>
-					<button id="switchSSF2">Super Smash Flash 2</button>
-					<button id="switchBrawlMinus">Brawl Minus</button>
-					<button id="switchBrawlZeus">Brawl Zeus</button><br>
-					<button id="switchSFV">Street Fighter V</button>
-					<button id="switchGGREV">Guilty Gear Xrd -Revelator-</button>
-					<button id="switchBrawlhalla">Brawlhalla</button>
-					<button id="switchOW">Overwatch</button>
-				</div>
-				<p><strong>Changing your game will empty your tierlist!</strong> Do not click unless you are sure you want to change! You cannot undo this.</p>
-				<p>64, Melee, Brawl, and Smash 4 screenshot icons from <a href="http://ssbwiki.com">SmashWiki</a>. Smash 4 render icons made by /u/wafflepotamus. Project M screenshot icons made by /u/brewster_the_pigeon. Smash Flash 2 screenshot icons made by /u/AxeEnding999. Brawl Minus icons made by /u/mslb99. Street Fighter V icons from <a href="http://sfv-wiki.com/wiki/STREET_FIGHTER_V_Wiki">SFV-Wiki</a>. Guilty Gear screenshot from <a href="http://www.dustloop.com/wiki/index.php/Guilty_Gear_Xrd_-REVELATOR-">Dustloop GG Rev Wiki</a>. Overwatch icons made by Blizzard Entertainment.</p>
+				<div id="checklist"><div></div></div>
+				<p><strong>Hiding a game will remove every character from that game from your tierlist!</strong> Do not click unless you are sure you want to change! You cannot undo this.</p>
 			</div>
 			<div id="helpMenu">
 				<h1>HELP</h1>
@@ -117,16 +103,30 @@
 				<p><strong>You can change the name of the tier.</strong> Click on the tier label, you can type in there. If this doesn't work, you can change it in the textbox in the corresponding settings menu.</p>
 				<p>If you want to <strong>completely start over</strong>, just refresh the page.</a>
 			</div>
-			<div id="screenshotShow">
+			<div id="screenshotShow" class="popupMenu">
+				<h1>SAVE/LOAD</h1>
 				<span id="close"></span>
-				<p>Your image should appear above. You can copy or save this image. Try uploading it to an image hosting website such as <a href="http://imgur.com">Imgur</a>. Alternatively, copy the code below to share an editable version of your tierlist. Just paste a code into the box below and click "Run code" to access it.</p>
-			<textarea id="exportcode" cols="30" rows="8"></textarea><div><button id="runCode">Run code</button></div>
+				<p style="text-align: left;">Your image will appear above after pressing "Take screenshot". You can copy or save this image.</p>
+				<div><button id="screenshot">Take screenshot</button></div>
+				<p style="text-align: left;">Alternatively, copy the code below to share an editable version of your tierlist. Paste a code into the box below and click "Run code" to load another tier list.</p>
+				<p style="text-align: left;">Note that any game that does not appear in the loaded list will be deselected.</p>
+				<textarea id="exportcode" rows="8"></textarea><div><button id="runCode">Run code</button></div>
+			</div>
+		        <div id="filterMenu" class="popupMenu">
+				<h1>FILTER</h1>
+				<span id="close"></span>
+				<div id="filterChecklist"><div></div></div>
+				<p>Choosing any filter will <strong>hide all unselected characters</strong> that don't match the chosen filters. Display every character again by unchecking every filter.</p>
 			</div>
 		</div>
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="dragula.min.js"></script>
-	<script src="html2canvas.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>!-->
+	<!--<script src="allnames.js"></script>-->
+	<script src="lib/dragula.min.js"></script>
+	<script src="lib/html2canvas.min.js"></script>
+	<script src="lib/common.js"></script>
+	<script src="lib/tags.js"></script>
 	<script>
 		dragula({
 			isContainer: function (el) {
@@ -136,25 +136,7 @@
 			localStorage.setItem("TierListMakerCode",toCode());
 		});
 		
-		// character images
-		var singleChar = "<div class='character'></div>";
-		var gameSmash4 = ["ssb4","mario","luigi","peach","bowser","yoshi","rosalinaluma","bowserjr","wario","donkeykong","diddykong","mrgamewatch","littlemac","link","zelda","sheik","ganondorf","toonlink","samus","zerosuitsamus","pit","palutena","marth","ike","robin","duckhunt","kirby","kingdedede","metaknight","fox","falco","pikachu","charizard","lucario","jigglypuff","greninja","rob","ness","captainfalcon","villager","olimar","wiifittrainer","shulk","drmario","darkpit","lucina","pacman","megaman","sonic","mewtwo","lucas","roy","ryu","cloud","corrin","bayonetta","miibrawler1","miigunner1","miisword1","miibrawler","miigunner","miisword"];
-		var gameSSB4Renders = ["ssb4r","mario","luigi","peach","bowser","yoshi","rosalinaluma","bowserjr","wario","donkeykong","diddykong","mrgamewatch","littlemac","link","zelda","sheik","ganondorf","toonlink","samus","zerosuitsamus","pit","palutena","marth","ike","robin","duckhunt","kirby","kingdedede","metaknight","fox","falco","pikachu","charizard","lucario","jigglypuff","greninja","rob","ness","captainfalcon","villager","olimar","wiifittrainer","shulk","drmario","darkpit","lucina","pacman","megaman","sonic","mewtwo","lucas","roy","ryu","cloud","corrin","bayonetta","miibrawler1","miigunner1","miisword1","miibrawler","miigunner","miisword"];
-		var gameMelee = ["melee","drmario","mario","luigi","bowser","peach","yoshi","dk","falcon","ganon","falco","fox","ness","icies","kirby","samus","zelda","sheik","link","ylink","pichu","pikachu","jigglypuff","mewtwo","gnw","marth","roy"];
-		var game64 = ["64","luigi","mario","dk","link","samus","falcon","ness","yoshi","kirby","fox","pikachu","jigglypuff"];
-		var gameBrawl = ["brawl","mario","luigi","peach","bowser","donkeykong","diddykong","yoshi","wario","link","zelda","sheik","ganondorf","toonlink","samus","zerosuitsamus","pit","iceclimbers","rob","kirby","metaknight","kingdedede","olimar","fox","falco","wolf","captainfalcon","pikachu","pokemontrainer","lucario","jigglypuff","marth","ike","ness","lucas","mrgamewatch","snake","sonic"];
-		var gamePM = ["pm","wario","mario","luigi","peach","bowser","yoshi","donkeykong","diddykong","falcon","wolf","fox","falco","icies","zelda","sheik","link","toonlink","ganon","mewtwo","lucario","pikachu","jigglypuff","squirtle","ivysaur","charizard","samus","zerosuit","lucas","ness","pit","kirby","metaknight","dedede","ike","marth","roy","olimar","rob","gnw","snake","sonic"];
-		var gameBrawlMinus = ["bminus","mario","luigi","peach","bowser","yoshi","donkeykong","diddy","wario","waluigi","link","zelda","sheik","ganondorf","toonlink","samus","zss","ness","lucas","pikachu","jigglypuff","pichu","mewtwo","squirtle","ivysaur","charizard","lucario","kirby","dedede","mk","fox","falco","wolf","marth","roy","ike","captainfalcon","gnw","iceclimbers","rob","pit","olimar","snake","sonic"];
-		var gameBrawlZeus = ["zeus","mario","luigi","peach","koopa","yoshi","dk","dd","wario","link","zelda","sheik","ganon","tlik","samus","zss","ness","lucas","pikachu","pichu","purin","m2","zenigame","fushigisou","lizardon","lucario","kirby","ddd","MK","fox","falco","wolf","marth","roy","ike","lucina","wayu","cf","gw","rob","pit","olimar","snake","sonic","4cloud","blackpit","cloudminus","geno","knuckles","lyn","mac","meta","ridley","ryu","shadow","shulk"];
-		var gameSFV = ["sfv","alex","akuma","balrog","birdie","cammy","chunli","dhalsim","fang","guile","ibuki","karin","ken","kolin","laura","mbison","nash","necalli","rashid","rmika","ryu","vega","zangief","juri","urien"];
-		var gameGGREV = ["ggrev","axl","bedman","chipp","elphelt","faust","ino","jacko","jam","johnny","kum","ky","leo","may","millia","potemkin","ramlethal","raven","sin","slayer","sol","venom","zato1","dizzy"];
-		var gameSSF2 = ["ssf2","mario","dk","link","kirby","samus","megaman","fox","ness","pikachu","sonic","peach","wario","zelda","sheik","metaknight","zss","bomberman","falcon","blackmage","jigglypuff","tails","yoshi","marth","lloyd","chibirobo","sora","ichigo","naruto","goku"];
-		var gameCorrinMode = ["ssb4r","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm","corrinm"];
-		var gameOW = ["ow","ana","bastion","dva","genji","hanzo","junkrat","lucio","mccree","mei","mercy","pharah","reaper","reinhardt","roadhog","soldier","sombra","symmetra","torbjorn","tracer","widowmaker","winston","zarya","zenyatta"];
-		var gameBrawlhalla = ["bh","ada","asuri","azoth","barraza","bodvar","brynn","cassidy","diana","ember","gnash","hattori","jhala","koji","kor","lordvraxx","lucien","orion","queennai","ragnir","scarlet","sentinel","sirroland","teros","thatch","ulgrim","val","wushang","axe","bow","gauntlet","gun","hammer","katar","lance","spear","sword"];
-		
-		var singleTier = "<tr><td class='labelHolder' contenteditable='true' style='background-color:#FFFF7F'><span class='label'>NEW</span></td><td><div class='tier sort' id='rows'><div class='hiddenkid'></div></div></td><td><div id='settings'></div><div id='moveButtons'><div id='moveUp'></div><div id='moveDown'></div></div></td></tr>";
-		
+		var singleTier = "<tr><td class='labelHolder' contenteditable='true' style='background-color:#FFFF7F'><span class='label'>NEW</span></td><td class='tierHolder'><div class='tier sort' id='rows'><div class='hiddenkid'></div></div></td><td class='settingsContainer'><div id='settings'></div><div id='moveButtons'><div id='moveUp'></div><div id='moveDown'></div></div></td></tr>";
 		var screenshotMode = false;
 		var colors = ["#FF7F7F","#FFBF7F","#FFDF7F","#FFFF7F","#BFFF7F","#7FFF7F","#7FFFFF","#7FBFFF","#7F7FFF","#FF7FFF","#BF7FBF","#3B3B3A","#858585","#CFCFCF","#F7F7F7"];
 		// first is the row in the table of the tier, second is the index of its color
@@ -172,10 +154,6 @@
 		var tierIndex;
 		var currentColor;
 		var colorIndex;
-		var currentGame;
-		var currentGameChars = gameSmash4;
-		var characters;
-		var resized,tableWidth;
 					  
 		for (var i = 0; i < tierDefaults.length; i++) {
 			tierDefaults[i][0].find(".labelHolder").css("background",colors[tierDefaults[i][1]]);
@@ -220,24 +198,41 @@
 			currentTier.find(".labelHolder").css("background-color",$(this).css("background-color"));
 			updateTiers();
 		});
-		
-		$(document).on("click", "#gameChange button", function() { // change game
-			console.log("game switching");
-			switch($(this).attr("id")) {
-				case "switch64": changeGame(game64);break;
-				case "switchMelee": changeGame(gameMelee);break;
-				case "switchBrawl": changeGame(gameBrawl);break;
-				case "switchPM": changeGame(gamePM);break;
-				case "switchBrawlMinus": changeGame(gameBrawlMinus);break;
-				case "switchBrawlZeus": changeGame(gameBrawlZeus);break;
-				case "switchSmash4": changeGame(gameSmash4);break;
-				case "switchSSB4Renders": changeGame(gameSSB4Renders);break;
-				case "switchSFV": changeGame(gameSFV);break;
-				case "switchGGREV": changeGame(gameGGREV);break;
-				case "switchSSF2": changeGame(gameSSF2);break;
-				case "switchBrawlhalla": changeGame(gameBrawlhalla);break;
-				case "switchOW": changeGame(gameOW);break;
+
+		$(document).on("click", "#save", function() { // open save/load modal
+			openPopup("#screenshotShow");
+			$("#screenshotShow").find("textarea").val(toCode());
+		});
+
+		$(document).on("change", ".characterCheck", function() { // add/remove characters
+			gameId = ($(this).attr("id"));
+			gameClass = ($(this).attr("class"));
+			// remove non-numeric characters - stackoverflow.com/questions/1862130/
+			gameIndex = gameClass.replace(/\D/g,'');
+			// alternative 
+			// gameInfo = currentGameChars.find(function(curr) { return curr[0] == gameId;});
+
+			if($(this).is(":checked")) {
+				for (var k = 0; k <= currentGameChars[gameIndex][1]; k++) {
+					$("#char div:last-child").after(singleChar);
+					$("#char div:last-child").css("background-image","url(img/"+currentGame+"/"+gameId+"/"+k+".png)");
+					$("#char div:last-child").attr("id", gameId + "-" + k);
+					// $("#char div:last-child").attr("title", allCharacters[gameIndex][k]);
+				}
+			} else {
+				$(".character[id^='"+currentGameChars[gameIndex][0]+"-']").each( function() {
+					$(this).remove();
+				});
 			}
+			updateFilters(imgTags);
+		});
+
+		$(document).on("change", ".filterCheck", function() {
+			updateFilters(imgTags);
+		});
+		
+		$(document).on("dblclick", ".character", function() { // move to highest tier instantly
+			$(this).detach().appendTo('#rows');
 		});
 			
 		$(document).on("click", function(e) {
