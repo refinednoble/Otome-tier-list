@@ -238,23 +238,21 @@
 			clicked = e.target.id;
 			if(clicked == "overlay" || clicked == "modalWrapper" || clicked == "close") { // close modals
 				closePopups();
+				$("#screenshotShow").css("display", "none");
 				$("#overlay").css("opacity", 0);
 				$("#overlay").css("visibility", "hidden");
-				$("#modal").css("display", "none");
-				$("#gameChange").css("display", "none");
-				$("#helpMenu").css("display", "none");
-				$("#screenshotShow").css("display", "none");
 			} else if(clicked == "screenshot") { // take a screenshot
 				$("#exportcode").val(toCode()); // generate save/load code
 				closePopups();
-				$("#modal").css("display", "none");
-				$("#gameChange").css("display", "none");
-				$("#helpMenu").css("display", "none");
-				$("#screenshotShow canvas").remove();
 				$("#screenshotShow").css("display","block");
 				$("#overlay").css("opacity", 1);
 				$("#overlay").css("visibility", "visible");
-				$("td:last-of-type").css("display","none");
+				if (!screenshotMode) {
+					$("#hidebuttons").click();
+				}
+				$("#tablemain").css("margin", "3px");
+				$("#tablemain").css("max-width", "100%");
+				window.scrollTo(0,0);
 				html2canvas(document.getElementById("tablemain")).then(function(canvas) {
 					$("#screenshotShow span").after(canvas);
 					$("#screenshotShow canvas").css("max-width", "100%");
@@ -285,7 +283,7 @@
 				updateTiers();
 				$("#overlay").css("opacity", 0);
 				$("#overlay").css("visibility", "hidden");
-				$("#modal").css("display", "none");
+				closePopups();
 			} else if (clicked == "addRowUp") { // add a row on top of the current row
 				$("tr:nth-of-type("+($("tr").index(currentTier)+1)+")").before(singleTier);
 				updateTiers();
@@ -303,22 +301,8 @@
 			} else if (clicked == "runCode") {
 				loadCode($("#exportcode").val());
 			} else if (clicked == "reset") {
-				switch(currentGameChars[0]) {
-					case "64": changeGame(game64);break;
-					case "melee": changeGame(gameMelee);break;
-					case "brawl": changeGame(gameBrawl);break;
-					case "bminus": changeGame(gameBrawlMinus);break;
-					case "zeus": changeGame(gameBrawlZeus);break;
-					case "pm": changeGame(gamePM);break;
-					case "ssb4": changeGame(gameSmash4);break;
-					case "sfv": changeGame(gameSFV);break;
-					case "ggrev": changeGame(gameGGREV);break;
-					case "ssf2": changeGame(gameSSF2);break;
-					case "bh": changeGame(gameBrawlhalla);break;
-					case "ow": changeGame(gameOW);break;
-				}
-				loadCode(currentGameChars[0]+"==S|0==A|1==B|3==C|5==D|7==E|8==F|9");
-			}
+				changeGame(currentGameChars);
+			} 
 		});
 		
 		$("#labelName").bind("input propertychange", function() {
@@ -363,9 +347,6 @@
 			$(".selectAllWrap").each( function() {
 				$(this).remove();
 			});
-			$(".filterCheck").each( function() {
-				$(this).prop('checked', false).change();
-			});
 			
 			for (var i = 1; i < game.length; i++) {
 				/*
@@ -385,8 +366,7 @@
 			$("#checklist div:last-child").after(selectAllWrap);
 			$("#checklist div:last-child").html("Select All: <input type='checkbox' class='selectAll' id='all' >");
 			
-			// 31 means Three Houses
-			$( ".characterCheck.game31" ).prop('checked', true).change();
+			$( ".selectAll" ).prop('checked', true).change();
 
 			$("h1 span").text(currentGame);
 			updateTiers();
