@@ -1,1 +1,1 @@
-$ git clone [Link](https://github.com/refinednoble/otome-tier-list.github.io.git)
+$ git clone [Link](otome-tier-list.github.io)
