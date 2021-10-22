@@ -110,33 +110,13 @@
 		// character images
 		var singleChar = "<div class='character'></div>";
 		var singleCheckWrap = "<div class='characterCheckWrap'></div>";
-		var gameMelee = [	["melee", 0, ""],
-							["bowser", 3, "Bowser"],
-							["captain", 5, "C. Falcon"],
-							["dk", 4, "DK"],
-							["doc", 4, "Dr. Mario"],
-							["falco", 3, "Falco"],
-							["fox", 3, "Fox"],
-							["ganon", 4, "Ganondorf"],
-							["gnw", 3, "Mr. G&W"],
-							["icies", 3, "Ice Climbers"],
-							["jiggly", 4, "Jigglypuff"],
-							["kirby", 5, "Kirby"],
-							["link", 4, "Link"],
-							["luigi", 3, "Luigi"],
-							["mario", 4, "Mario"],
-							["marth", 4, "Marth"],
-							["mewtwo", 3, "Mewtwo"],
-							["ness", 3, "Ness"],
-							["peach", 4, "Peach"],
-							["pichu", 3, "Pichu"],
-							["pika", 3, "Pikachu"],
-							["roy", 4, "Roy"],
-							["samus", 4, "Samus"],
-							["sheik", 4, "Sheik"],
-							["yoshi", 5, "Yoshi"],
-							["ylink", 4, "Young Link"],
-							["zelda", 4, "Zelda"] ];
+		var gameAll = [	["game", 0, ""],
+                ["all", 21, "Love Intrests"],
+				["en", 1, "English Localizations"],
+				["jp", 3, "Japan only"],
+				["enf", 2, "English Created"],
+                ["other", 13, "Other"],
+                ];
 		
 		var singleTier = "<tr><td class='labelHolder' contenteditable='true' style='background-color:#FFFF7F'><span class='label'>NEW</span></td><td><div class='tier sort' id='rows'><div class='hiddenkid'></div></div></td><td><div id='settings'></div><div id='moveButtons'><div id='moveUp'></div><div id='moveDown'></div></div></td></tr>";
 		
@@ -157,10 +137,6 @@
 		var tierIndex;
 		var currentColor;
 		var colorIndex;
-		var currentGame;
-		var currentGameChars = gameMelee;
-		var characters;
-		var characterId;
 					  
 		for (var i = 0; i < tierDefaults.length; i++) {
 			tierDefaults[i][0].find(".labelHolder").css("background",colors[tierDefaults[i][1]]);
