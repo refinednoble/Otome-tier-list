@@ -2,7 +2,7 @@
 var singleChar = div class='character'div;
 var singleCheckWrap = div class='characterCheckWrap'div;
 var selectAllWrap = div class='selectAllWrap'div;
-var gameFe = [	["Icons", "0", ""],
+var gameli = [	["Icons", "0", ""],
                 ["DiaLovers", "11", "Diabolik Lovers"],
 				[Dialovers, 5, Diabolik Lovers Extra],
                 [mote2, 44, Mystery of the Emblem Book 2],
@@ -48,7 +48,7 @@ var gameFe = [	["Icons", "0", ""],
                 ];
 
 var currentGame;
-var currentGameChars = gameFe;
+var currentGameChars = gameli;
 var characters;
 var characterId;
 
