@@ -10,18 +10,18 @@
 	<link href="styles/dragula.min.css" rel="stylesheet">
 	<meta name="google-site-verification" content="mhlxk9_OOcyed8If_JjdkOZv6GmGPYfSnbsafwWmRC4" />
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:creator" content="@e5e_dk" />
-	<meta property='og:image' content='https://otome-tier-list-maker.github.io/img/preview_image.png'/>
-	<meta property='og:url' content='https://otome-tier-list-maker.github.io/'/>
+	<meta name="twitter:creator" content="@vernie_dk" />
+	<meta property='og:image' content='https://fe-tier-list-maker.github.io/img/preview_image.png'/>
+	<meta property='og:url' content='https://fe-tier-list-maker.github.io/'/>
 	<meta property='og:title' content='FE Tier List Maker'/>
-	<meta property='og:description' content='Everyone is here!' />
+	<meta property='og:description' content='Tier list maker for every character in the Fire Emblem series. Filter by game, class, and other categories all at once.' />
 	<meta name="keywords" content="Fire Emblem,Tier List,Three Houses,FE,Awakening,Fates,All Characters">
 	<meta name="viewport" content="user-scalable=no">
 </head>
 <body>
 	<nav id="nav" class="nav">
 		<ul>
-			<li><button id="screenshot">Share</button></li>
+			<li><button id="dock">Dock tier list</button></li>
 			<hr>
 			<li><button id="hidebuttons">Hide controls</button></li>
 			<hr>
@@ -44,7 +44,7 @@
 		<h1 id="titleHeading"><span>neat</span> TIER LIST MAKER</h1>
 		<!--
 		<div id="buttons">
-			<button id="screenshot">Share</button>
+			<button id="dock">Dock tier list</button>
 			<button id="hidebuttons">Hide controls</button>
 			<button id="characters">Change characters</button>
 			<button id="help">Help</button>
@@ -92,6 +92,10 @@
 		</tr>
 	</tbody></table>
 	</div>
+
+	<div id="tooltip">
+		<p>PRO TIP: Click the top left button to show more characters!</p>
+	</div>
 	
 	<div id="char" class="sort">
 		<div>If no characters are loaded here, choose a game by clicking the "Change game" button above.</div>
@@ -104,7 +108,8 @@
 				<span id="close"></span>
 				<p>Choose label color:</p>
 				<div id="colorselect"><span style="background:#FF7F7F"></span><span style="background:#FFBF7F"></span><span style="background:#FFDF7F"></span><span style="background:#FFFF7F"></span><span style="background:#BFFF7F"></span><span style="background:#7FFF7F"></span><span style="background:#7FFFFF"></span><span style="background:#7FBFFF"></span><span style="background:#7F7FFF"></span><span style="background:#FF7FFF"></span><span style="background:#BF7FBF"></span><span style="background:#3B3B3B"></span><span style="background:#858585"></span><span style="background:#CFCFCF"></span><span style="background:#F7F7F7"></span></div>
-				<p>Label name:</p><textarea id="labelName"></textarea>
+				<p>Label name:</p><textarea id="labelName"></textarea></p>
+				<button id="resetLabel">Reset label</button>
 				<p>Row functions:</p>
 				<p><button id="deleteRow">Delete row</button> <button id="clearRow">Clear row</button></p>
 				<p><button id="addRowUp">Add row above</button> <button id="addRowBelow">Add row below</button></p>
@@ -118,15 +123,19 @@
 			<div id="helpMenu" class="popupMenu">
 				<h1>HELP</h1>
 				<span id="close"></span>
-				<p>This is the new version of the old Smash Tier List Maker. If you still like the old one, <a href="old/">click here</a> to go there.</p>
-				<p><strong>All 4 official Smash games and Project M are supported.</strong> If you want to change the game you are using, click on "Change game" in the top bar.</p>
-				<p><strong>You can take screenshots of your tierlist.</strong> To take a screenshot, click on the "Share" button in the top bar. A popup should appear that contains an image of your tierlist. You can copy or save this image to then upload to an image hosting site. If the screenshot feature does not work for you, you can click the "Hide controls" button to make the list look cleaner.</p>
-				<p><strong>You can share editable versions of your tierlist.</strong> Click on the "Share" button and you will see a textbox that contains a code. Copy and share this with others so that they can edit your tierlist.</p>
-				<p><strong>Your latest tierlist autosaves to your device.</strong> As soon as you drag a character image, your tierlist will be saved. Any time you reopen it you will be able to access your previous tierlist.</p>
-				<p>There is a gear next to each tier in the tierlist. (If you don't see this gear, click on the "Toggle screenshot mode" button in the top bar. If this doesn't work, <a href="https://www.reddit.com/message/compose?to=Buizbuiz&subject=Smash%20Tier%20List%20Maker">message /u/Buizbuiz on reddit</a>.) If you click on it, you can <strong>change the color of the tier label, add rows, delete the row, or remove all of the characters currently in the row.</strong></p>
-				<p>Next to the gear are 2 arrows, pointed up and down. Clicking these will let you <strong>move a tier up and down a level</strong>.</p>
-				<p><strong>You can change the name of the tier.</strong> Click on the tier label, you can type in there. If this doesn't work, you can change it in the textbox in the corresponding settings menu.</p>
-				<p>If you want to <strong>completely start over</strong>, just refresh the page.</a>
+				<p>Also check out the <a href ="https://fe-tier-list-maker.github.io/home">other tools</a>, including a game tier list maker and graph maker!</p>
+				<p>For any issues, add it to the list on the repository page or message me on <a href ="https://twitter.com/vernie_dk">Twitter</a> or elsewhere.</p>
+				<p>You can click and drag characters into the list or double-click to instantly move them to the highest tier.</p>
+				<p>Clicking on the "Dock tier list" button will <strong>stick the tier list to the top of the window.</strong>
+				This can be useful if you have a large number of characters on-screen and don't want to scroll up and down
+				as you drag them into your list. Clicking the button again will return the list to its original position.</p>
+				<p>You can take a screenshot or generate code to load your current list later in the "Save/Load" tab.</p>
+				<p>There is a gear next to each tier in the tierlist. If you click on it, you can <strong>change the color of the tier label, add rows, delete the row, or remove all of the characters currently in the row.</strong></p>
+				<p>Next to the gear are two arrows which will let you <strong>move a tier up and down a level</strong>.</p>
+				<p><strong>You can change the name of the tier</strong> by clicking on the tier label and typing in there. If this doesn't work, you can change or reset it in the tier's settings menu (the gear).</p>
+				<p>If you want to <strong>completely start over</strong>, refresh the page or click the "Reset" button at the top of the page.</a>
+				<p>Source code can be found <a href ="https://github.com/fe-tier-list-maker/fe-tier-list-maker.github.io">here</a> and was forked from <a href ="https://github.com/quetzle/smash-apps">here</a>.</p>
+				<p>Information on image ownership can be found <a href = "https://github.com/fe-tier-list-maker/fe-tier-list-maker.github.io/blob/master/CREDITS.md">here</a>.</p>
 			</div>
 			<div id="screenshotShow" class="popupMenu">
 				<h1>SAVE/LOAD</h1>
@@ -137,7 +146,7 @@
 				<p style="text-align: left;">Note that any game that does not appear in the loaded list will be deselected.</p>
 				<textarea id="exportcode" rows="8"></textarea><div><button id="runCode">Run code</button></div>
 			</div>
-		        <div id="filterMenu" class="popupMenu">
+			<div id="filterMenu" class="popupMenu">
 				<h1>FILTER</h1>
 				<span id="close"></span>
 				<div id="filterChecklist"><div></div></div>
@@ -164,6 +173,7 @@
 		var singleTier = "<tr><td class='labelHolder' contenteditable='true' style='background-color:#FFFF7F'><span class='label'>NEW</span></td><td class='tierHolder'><div class='tier sort' id='rows'><div class='hiddenkid'></div></div></td><td class='settingsContainer'><div id='settings'></div><div id='moveButtons'><div id='moveUp'></div><div id='moveDown'></div></div></td></tr>";
 		
 		var screenshotMode = false;
+		var showTooltip = true;
 		var listStickied = false;
 		var colors = ["#FF7F7F","#FFBF7F","#FFDF7F","#FFFF7F","#BFFF7F","#7FFF7F","#7FFFFF","#7FBFFF","#7F7FFF","#FF7FFF","#BF7FBF","#3B3B3A","#858585","#CFCFCF","#F7F7F7"];
 		// first is the row in the table of the tier, second is the index of its color
@@ -185,6 +195,25 @@
 		for (var i = 0; i < tierDefaults.length; i++) {
 			tierDefaults[i][0].find(".labelHolder").css("background",colors[tierDefaults[i][1]]);
 		}
+
+		$(document).on("click", ".nav-toggle", function() {
+			if (showTooltip) {
+				$("#tooltip").css("display", "none");
+				showTooltip = false;
+			}
+		});
+		
+		$(document).on("click", "#dock", function() {
+			if (listStickied) {
+				$("#tablewrap").css("position","static");
+				$("#dock").text("Dock tier list");
+				listStickied = false;
+			} else {
+				$("#tablewrap").css("position","sticky");
+				$("#dock").text("Undock tier list");
+				listStickied = true;
+			}
+		});
 			
 		$(document).on("click", "#settings", function() { // open settings modal
 			currentTier = $(this).parent().parent();
@@ -198,20 +227,6 @@
 			}
 			$("#modal span:nth-of-type("+(colorIndex+1)+")").attr("class","selected");
 			openPopup("#modal");
-		});
-		
-		$(document).on("click", "#game", function() { // open game changer modal
-			$("#gameChange").css("display","block");
-			$("#overlay").css("opacity", 1);
-			$("#overlay").css("visibility", "visible");
-			$("#gameChange").css("top",alignPopup($("#gameChange")));
-		});
-		
-		$(document).on("click", "#help", function() { // open help modal
-			$("#helpMenu").css("display","block");
-			$("#overlay").css("opacity", 1);
-			$("#overlay").css("visibility", "visible");
-			$("#helpMenu").css("top",alignPopup($("#helpMenu")));
 		});
 		
 		$(document).on("click", "#colorselect span", function() { // change row label
@@ -334,20 +349,9 @@
 			currentTier.find(".label").html($("#labelName").val().replace(/\n/g, "<br>"));
 		});
 		
-		
 		$("#resetLabel").on("click", function() {
 			currentTier.find(".labelHolder").html('<span class="label">New Label</label>');
 		});
-		
-		
-		// http://stackoverflow.com/a/3971432 thanks Zack Katz :D
-		function rgb2hex(rgb) {
-			rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-			function hex(x) {
-				return ("0" + parseInt(x).toString(16)).slice(-2);
-			}
-			return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-		}
 		
 		function updateTiers() {
 			tierlist = [];
@@ -357,11 +361,11 @@
 				currentColor = currentTier.find(".labelHolder").css("background-color"); // returns in rgb format, have to convert to hex
 				tier[0] = currentTier;
 				tier[1] = colors.indexOf(rgb2hex(currentColor).toUpperCase());
-				console.log(tier);
+				// console.log(tier);
 				tierlist.push(tier);
 			}
 			currentTier = tempTier;
-			console.log(tierlist);
+			// console.log(tierlist);
 		}
 		
 		function changeGame(game) {
@@ -377,6 +381,9 @@
 			// just in case there's more than one...
 			$(".selectAllWrap").each( function() {
 				$(this).remove();
+			});
+			$(".filterCheck").each( function() {
+				$(this).prop('checked', false).change();
 			});
 			
 			for (var i = 1; i < game.length; i++) {
@@ -454,7 +461,7 @@
 				case "fe": changeGame(gameFe);break;
 			}
 			*/
-			changeGame(gameli);
+			changeGame(gameFe);
 			// select only the games that appear
 			$(".selectAll").prop('checked', false).change();
 			selectionList = [];
@@ -519,7 +526,6 @@
 		});
 		$(window).resize( function () {
 			tierlistSize();
-		}
+		})
 	</script>
 </body>
-</html>
