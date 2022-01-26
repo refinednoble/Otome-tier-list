@@ -4,7 +4,7 @@ var singleCheckWrap = div class='characterCheckWrap'div;
 var selectAllWrap = div class='selectAllWrap'div;
 var gameFe = [	["Icons", "0", ""],
                 ["DiaLovers", "11", "Diabolik Lovers"],
-				[sde, 5, Shadow Dragon Extra],
+				[Dialovers, 5, Diabolik Lovers Extra],
                 [mote2, 44, Mystery of the Emblem Book 2],
                 [mote1, 30, Mystery Book 1 and Extra],
                 [nm, 77, New Mystery of the Emblem],
