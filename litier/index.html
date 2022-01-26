@@ -458,10 +458,10 @@
 			/*
 			// deprecated switch statement
 			switch(processedCode[0][0]) {
-				case "fe": changeGame(gameFe);break;
+				case "fe": changeGame(game);break;
 			}
 			*/
-			changeGame(gameFe);
+			changeGame(gameli);
 			// select only the games that appear
 			$(".selectAll").prop('checked', false).change();
 			selectionList = [];
@@ -515,7 +515,7 @@
 		$(document).ready( function() {
 			$("#char").html("<div></div>");
 			if (localStorage.getItem("ColorTiersCode") === null)
-				changeGame(gameFe);
+				changeGame(gameli);
 			else {
 				$("#exportcode").val(localStorage.getItem("ColorTiersCode"));
 				loadCode(localStorage.getItem("ColorTiersCode"));
