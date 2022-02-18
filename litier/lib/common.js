@@ -149,7 +149,7 @@ function updateFilters(tagList) {
     filter(currTags, tagList);
 }
 
- For hamburger menu, taken from httpscodepen.iomranenkopenwevamj
+// For hamburger menu, taken from https://codepen.io/mranenko/pen/wevamj
 (function() {
 
 	var hamburger = {
